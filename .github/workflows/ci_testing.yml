@@ -1,0 +1,28 @@
+name: CI Testing Pipeline
+on:
+  push:
+    branches:
+      - testing
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Run Unit Tests
+        run: |
+          pytest
+      - name: Build Docker Image
+        run: |
+          docker build -t <your-dockerhub-username>/weather-app:testing .
+      - name: Push Docker Image
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push <your-dockerhub-username>/weather-app:testing
