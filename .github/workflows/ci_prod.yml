@@ -9,13 +9,31 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up Kubernetes (Minikube)
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
         run: |
-          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          chmod +x minikube
-          sudo install minikube /usr/local/bin/
-          minikube start
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Run Tests
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        run: |
+          pytest tests/ -v
+          
+      - name: Set up Kubernetes
+        uses: Azure/setup-kubectl@v3
+        
+      - name: Set up Minikube
+        uses: medyagh/setup-minikube@master
+        
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yml
           kubectl apply -f k8s/service.yml
+          kubectl get pods -A
