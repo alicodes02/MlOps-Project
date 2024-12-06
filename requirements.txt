@@ -5,3 +5,5 @@ scikit-learn
 apache-airflow
 dvc
 python-dateutil
+seaborn
+mlflow

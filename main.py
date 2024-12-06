@@ -11,7 +11,11 @@ def main():
     # 1. Collect Data
     print("Starting data collection...")
     collector = WeatherDataCollector(os.getenv('WEATHER_API_KEY'))
-    collector.collect_weather_data(city="London", days=5)
+    collector.collect_weather_data(
+        cities=["London", "New York", "Tokyo", "Paris", "Sydney"],
+        interval_seconds=2,  # 2 seconds interval
+        samples_per_city=3   # 3 samples per city
+    )
     print("Data collection completed!")
     
     # 2. Preprocess Data
