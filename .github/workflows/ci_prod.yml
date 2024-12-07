@@ -63,7 +63,18 @@ jobs:
             echo "Waiting for frontend deployment..."
             sleep 10
             kubectl get pods -n weather-app
-          done          
+          done
+          
+      - name: Get deployment status
+        run: |
+          kubectl get deployments -n weather-app
+          kubectl get pods -n weather-app
+
+      - name: Get backend pod logs
+        run: |
+          kubectl logs -n weather-app backend-deployment-66cc6b7f5-d65ck  # Replace with actual pod name if different
+          kubectl logs -n weather-app backend-deployment-66cc6b7f5-pg57s  # Replace with actual pod name if different
+          
       - name: Get service URLs
         run: |
           minikube service list -n weather-app
