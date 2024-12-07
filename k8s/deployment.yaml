@@ -23,7 +23,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: weather-secrets
-              key: api-key
+              key: ZTk0ZDdmOGE4NGY0ZmZlNDMzODEwM2Y2MjNmOWM0OTE=
         resources:
           limits:
             cpu: "500m"
