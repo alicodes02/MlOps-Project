@@ -35,3 +35,5 @@ This implementation demonstrates how DVC and Airflow create a robust MLOps pipel
 - Version control for both data and models
 - Scalable deployment with Kubernetes
 - Continuous integration and deployment
+
+## Medium Blog: https://medium.com/@se.muhammadali01/mlops-implementation-with-dvc-and-airflow-a-hands-on-guide-28e98c109fcf
