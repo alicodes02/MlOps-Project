@@ -25,4 +25,4 @@ jobs:
           WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         run: |
           cd backend
-          pytest tests/ -v
+          python -m pytest tests/ -v
