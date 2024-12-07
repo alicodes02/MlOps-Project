@@ -9,3 +9,5 @@ seaborn
 mlflow
 flask_cors
 flask_pymong
+pytest==7.4.0
+pytest-cov==4.1.0
