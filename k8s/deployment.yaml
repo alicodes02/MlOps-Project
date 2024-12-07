@@ -14,23 +14,23 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: alicodes02/weather-app-backend:testing
-        ports:
-        - containerPort: 5000
-        env:
-        - name: WEATHER_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: weather-secrets
-              key: api-key
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-          requests:
-            cpu: "200m"
-            memory: "256Mi"
+        - name: backend
+          image: ${DOCKER_USERNAME}/weather-app-backend:testing
+          ports:
+            - containerPort: 5000
+          env:
+            - name: WEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weather-secrets
+                  key: api-key
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
 ---
 # Frontend Deployment
 apiVersion: apps/v1
@@ -48,14 +48,14 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: alicodes02/weather-app-frontend:testing
-        ports:
-        - containerPort: 3000
-        resources:
-          limits:
-            cpu: "300m"
-            memory: "256Mi"
-          requests:
-            cpu: "100m"
-            memory: "128Mi"s
+        - name: frontend
+          image: ${DOCKER_USERNAME}/weather-app-frontend:testing
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
