@@ -16,10 +16,15 @@ jobs:
       - name: Set up Minikube
         uses: medyagh/setup-minikube@master
         
-      - name: Start Minikube
+      - name: Configure Minikube
         run: |
           minikube start
           minikube addons enable ingress
+          # Wait for ingress controller
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=180s
         
       - name: Create namespace
         run: |
@@ -34,10 +39,18 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
           rm weather-api-key.txt
         
-      - name: Deploy to Kubernetes
+      - name: Deploy core resources
         run: |
-          kubectl apply -k k8s/
-          kubectl get all -n weather-app
+          # Apply everything except ingress first
+          kubectl apply -f k8s/configmap.yaml -n weather-app
+          kubectl apply -f k8s/service.yaml -n weather-app
+          kubectl apply -f k8s/deployment.yaml -n weather-app
+          kubectl apply -f k8s/persistent-volume.yaml -n weather-app
+        
+      - name: Deploy ingress
+        run: |
+          # Apply ingress after other resources are ready
+          kubectl apply -f k8s/ingress.yaml -n weather-app
           
       - name: Wait for deployments
         run: |
