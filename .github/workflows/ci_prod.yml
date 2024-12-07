@@ -56,13 +56,15 @@ jobs:
         run: |
           while ! kubectl get deployment -n weather-app backend-deployment -o jsonpath='{.status.availableReplicas}' | grep -q '2'; do
             echo "Waiting for backend deployment..."
-            sleep 10
+            kubectl get deployments -n weather-app
             kubectl get pods -n weather-app
+            sleep 10
           done
           while ! kubectl get deployment -n weather-app frontend-deployment -o jsonpath='{.status.availableReplicas}' | grep -q '2'; do
             echo "Waiting for frontend deployment..."
-            sleep 10
+            kubectl get deployments -n weather-app
             kubectl get pods -n weather-app
+            sleep 10
           done
           
       - name: Get deployment status
